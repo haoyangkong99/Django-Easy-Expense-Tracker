@@ -1,0 +1,590 @@
+{% load static %}
+{% include 'is-authenticated.html'%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        {% include 'sidebar.html'%}
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                {% include 'tool-bar.html'%}
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <div class="dropdown mb-8" style="padding-right:70px" >
+                            <button class="btn btn-primary dropdown-toggle" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="padding-left: 40px; padding-right:40px">
+                                Period
+                            </button>
+                            <div class="dropdown-menu animated--fade-in"
+                                aria-labelledby="dropdownMenuButton" style="min-width: 1050px; padding-left:10px">
+                                <a class="dropdown-item" href="index" style="display:flex; justify-content:center;">Overall</a>
+                                <a class="dropdown-item" href="index?start={{ current_year }}-01-01&end={{ current_year}}-12-31" style="display:flex; justify-content:center;">This Year</a>
+
+
+
+
+                                <div style="display: flex; align-items: center;"> <!-- Use flex display for inline content -->
+                                    <label style="margin-right: 10px;padding-top:8px">Start</label>
+                                    <input type="date" class="form-control col-5" id="start" name="start" required>
+                                    <div style="width:10px"></div>
+                                    <label style="margin-right: 10px;padding-top:8px;padding-right:5px;">End</label>
+                                    <input type="date" class="form-control col-5" id="end" name="end" required>
+                                    <div style="width:10px"></div>
+                                    <button  class="btn btn-primary btn-square btn-md" onclick="processStartEnd()">
+                                        <i class="fas fa-search" ></i>
+                                    </button>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function processStartEnd (){
+                            var start=document.getElementById("start").value;
+                        var end=document.getElementById("end").value;
+                        window.location.href="index?start="+start+"&end="+end;
+                        }
+
+                    </script>
+                    <!-- Content Row -->
+                    <div class="row">
+                        {% with first_row=resultIncomeExpenseByMonthAnnual.0 %}
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Income (Monthly)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ first_row.0 }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Income (Annual)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ first_row.2 }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Expense (Monthly)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ first_row.1 }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-secondary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                                Expense (Annual)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ first_row.3 }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endwith %}
+
+                    <!-- Content Row -->
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Report By Income</h6>
+
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="reportbyincomebymonth"></canvas>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Report By Expense</h6>
+
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="reportbyexpensebymonth"></canvas>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Report By Category (Income)</h6>
+
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="reportbycategorybyincome"></canvas>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Report By Category (Expense)</h6>
+
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="reportbycategorybyexpense"></canvas>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Report By Mode</h6>
+
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="chartbymode"></canvas>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Report By Type</h6>
+
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="chartbytype"></canvas>
+
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> Income
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> Expense
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            {% include 'footer.html'%}
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    {% include 'logout.html'%}
+
+      <!-- Bootstrap core JavaScript-->
+      <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+      <!-- Core plugin JavaScript-->
+      <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+      <!-- Custom scripts for all pages-->
+      <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+      <!-- Page level plugins -->
+      <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+      <!-- Page level custom scripts -->
+      <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+      <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+      <script>
+        var colorConstant=['#4e73df','#1cc88a','#36b9cc','#f6c23e','#e74a3b','#858796','#5a5c69']
+        var ctx = document.getElementById("chartbytype");
+        var myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+
+              labels: ["Income", "Expense", ],
+              datasets: [{
+
+                data: [{{chartbytype.sum_income}},{{chartbytype.sum_expense}}],
+                backgroundColor: ['#4e73df', '#1cc88a'],
+                hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+              }],
+            },
+            options: {
+
+              maintainAspectRatio: false,
+              tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+              },
+              legend: {
+                display: false
+              },
+              cutoutPercentage: 80,
+            },
+          });
+          var chartbymode = document.getElementById("chartbymode").getContext('2d');
+          var barChartByMode = new Chart(chartbymode, {
+              type: 'horizontalBar',
+              data: {
+                  labels: [{% for x in chartbymode %}"{{ x.1 }}",{% endfor %}],
+                  datasets: [{
+                      data: [{% for x in chartbymode %}{{ x.2 }},{% endfor %}],
+                      backgroundColor: [{% for x in chartbymode %}
+                      colorConstant[{{ forloop.counter0 }}],
+                  {% endfor %}],
+                      hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                      hoverBorderColor: "rgba(234, 236, 244, 1)",
+                  }],
+              },
+              options: {
+                  indexAxis: 'y',
+                  maintainAspectRatio: false,
+                  scales: {
+                      y: {
+                          beginAtZero: true, // To start the axis at zero
+                      },
+                  },
+
+                  tooltips: {
+                      backgroundColor: "rgb(255,255,255)",
+                      bodyFontColor: "#858796",
+                      borderColor: '#dddfeb',
+                      borderWidth: 1,
+                      xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+                  },
+                  legend: {
+                      display: false,
+                  },
+                  cutoutPercentage: 80,
+              },
+          });
+          var data =[0,0,0,0,0,0,0,0,0,0,0,0]
+          {% for x in reportbyincomebymonth %}
+
+          data[{{x.1}}-1]={{x.2}}
+
+                  {% endfor %}
+          var reportbyincomebymonth = document.getElementById("reportbyincomebymonth").getContext('2d');
+          var barChartByIncomeByMonth = new Chart(reportbyincomebymonth, {
+              type: 'bar',
+              data: {
+                labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug',"Sep","Oct","Nov","Dec"],
+                datasets: [{
+                  data: data,
+
+                    backgroundColor: Array(data.length).fill('#36b9cc'),
+                    hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+              options: {
+
+                  maintainAspectRatio: false,
+                  scales: {
+                      y: {
+                          beginAtZero: true, // To start the axis at zero
+                      },
+                  },
+
+                  tooltips: {
+                      backgroundColor: "rgb(255,255,255)",
+                      bodyFontColor: "#858796",
+                      borderColor: '#dddfeb',
+                      borderWidth: 1,
+                      xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+                  },
+                  legend: {
+                      display: false,
+                  },
+                  cutoutPercentage: 80,
+              },
+          });
+        var dataExpense =Array(12).fill(0)
+          {% for x in reportbyexpensebymonth %}
+
+          dataExpense[{{x.1}}-1]={{x.2}}
+
+                  {% endfor %}
+          var reportbyexpensebymonth = document.getElementById("reportbyexpensebymonth").getContext('2d');
+          var barChartByExpenseByMonth = new Chart(reportbyexpensebymonth, {
+              type: 'bar',
+              data: {
+                labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug',"Sep","Oct","Nov","Dec"],
+                datasets: [{
+                  data: dataExpense,
+
+                    backgroundColor: Array(data.length).fill('#e74a3b'),
+                    hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+              options: {
+
+                  maintainAspectRatio: false,
+                  scales: {
+                      y: {
+                          beginAtZero: true, // To start the axis at zero
+                      },
+                  },
+
+                  tooltips: {
+                      backgroundColor: "rgb(255,255,255)",
+                      bodyFontColor: "#858796",
+                      borderColor: '#dddfeb',
+                      borderWidth: 1,
+                      xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+                  },
+                  legend: {
+                      display: false,
+                  },
+                  cutoutPercentage: 80,
+              },
+          });
+          var reportbycategorybyincome = document.getElementById("reportbycategorybyincome").getContext('2d');
+          var barChartByCategory = new Chart(reportbycategorybyincome, {
+              type: 'bar',
+              data: {
+                  labels: [{% for x in reportbycategory %}"{{ x.0 }}",{% endfor %}],
+                  datasets: [{
+                      data: [{% for x in reportbycategory %}{{ x.1 }},{% endfor %}],
+                      backgroundColor: Array({{reportbycategory|length}}).fill('#36b9cc'),
+                      hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                      hoverBorderColor: "rgba(234, 236, 244, 1)",
+                  }],
+              },
+              options: {
+                  indexAxis: 'y',
+                  maintainAspectRatio: false,
+                  scales: {
+                      y: {
+                          beginAtZero: true, // To start the axis at zero
+                      },
+                  },
+
+                  tooltips: {
+                      backgroundColor: "rgb(255,255,255)",
+                      bodyFontColor: "#858796",
+                      borderColor: '#dddfeb',
+                      borderWidth: 1,
+                      xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+                  },
+                  legend: {
+                      display: false,
+                  },
+                  cutoutPercentage: 80,
+              },
+          });
+
+          var reportbycategorybyexpense = document.getElementById("reportbycategorybyexpense").getContext('2d');
+          var barChartByCategoryByExpense = new Chart(reportbycategorybyexpense, {
+              type: 'bar',
+              data: {
+                  labels: [{% for x in reportbycategory %}"{{ x.0 }}",{% endfor %}],
+                  datasets: [{
+                      data: [{% for x in reportbycategory %}{{ x.2 }},{% endfor %}],
+                      backgroundColor: Array({{reportbycategory|length}}).fill('#f6c23e'),
+                      hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                      hoverBorderColor: "rgba(234, 236, 244, 1)",
+                  }],
+              },
+              options: {
+                  indexAxis: 'y',
+                  maintainAspectRatio: false,
+                  scales: {
+                      y: {
+                          beginAtZero: true, // To start the axis at zero
+                      },
+                  },
+
+                  tooltips: {
+                      backgroundColor: "rgb(255,255,255)",
+                      bodyFontColor: "#858796",
+                      borderColor: '#dddfeb',
+                      borderWidth: 1,
+                      xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+                  },
+                  legend: {
+                      display: false,
+                  },
+                  cutoutPercentage: 80,
+              },
+          });
+    </script>
+
+</body>
+
+</html>

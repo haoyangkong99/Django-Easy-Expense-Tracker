@@ -1,0 +1,267 @@
+{% load static %}
+{% include 'is-authenticated.html'%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Manage Transaction</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <style>
+        #openDialogButton {
+            cursor: pointer;
+          }
+          {% comment %} #dialogBox::backdrop {
+            opacity: 1;
+            background-color: rgb(25, 25, 170);
+            backdrop-filter: blur(5px);
+          } {% endcomment %}
+          #dialogBox {
+            box-shadow: 5px 10px #888888;
+            border-radius: 8px;
+            border: none;
+          }
+          #dialogBox header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+          #deleteButton {
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 12px 32px;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+          }
+          #closeDialogFooter {
+            background-color: gray;
+            border: none;
+            color: white;
+            padding: 12px 32px;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+          }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        {%  include   'sidebar.html'%}
+        <!-- End of Sidebar -->
+
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                {% include 'tool-bar.html'%}
+                <!-- End of Topbar -->
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+
+                    <div class="card shadow mb-4">
+
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Manage Transaction</h6>
+                            <a href="add" class="btn btn-primary btn-square btn-lg">
+                                <i class="fas fa-plus"></i>
+                            </a>
+
+
+                        </div>
+
+
+
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Category Name</th>
+                                            <th>Mode Name</th>
+                                            <th>Transaction Type</th>
+                                            <th>Date Time</th>
+                                            <th>Amount</th>
+                                            <th>Note</th>
+
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for x in data %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            {% for p in category%}
+                                                {% if p.id == x.category_id%}
+                                            <td>{{p.name}}</td>
+                                            {%endif%}
+                                            {%endfor%}
+
+                                            {% for t in mode%}
+                                            {% if t.id == x.mode_id%}
+                                            <td>{{t.name}}</td>
+                                            {%endif%}
+                                            {%endfor%}
+
+                                            <td>{{x.type}}</td>
+                                            <td>{{x.date}}</td>
+                                            <td>{{x.amount}}</td>
+                                            <td>{{x.note}}</td>
+
+                                            <td>
+                                                <button class="btn btn-info btn-square btn-md" onclick="redirectToEdit('{{x.id}}')">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-square btn-md" onclick="showDialog('{{x.id}}')">
+
+                                                    <i class="fas fa-trash" ></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            {% include 'loader.html'%}
+            <dialog id="dialogBox">
+                <header>
+                  <h2 class="m-0 font-weight-bold text-primary">Confirmation</h2>
+                  <button class="btn btn-primary btn-square btn-sm" onclick="closeDialog()">
+                    <i class="fas fa fa-window-close"></i>
+                </button>
+
+                </header>
+
+                <section>
+                  <p class="mb-4">Are you sure you want to delete this transaction?</p>
+                </section>
+
+                <footer>
+                    <form method="post" action="{%url 'processDeleteTransaction'%}" id="deleteForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" id="modeid" >
+                        <button type="button" onclick="closeDialog()" id="closeDialogFooter">No</button>
+                        <input type="submit" value="Yes" id="deleteButton">
+
+                    </form>
+
+                </footer>
+              </dialog>
+            <!-- Footer -->
+            {% include 'footer.html'%}
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    {% include 'logout.html'%}
+    <script>
+
+        $(document).ready(function(){
+            $("#loaderContainer").hide();
+        })
+
+        $("#deleteForm").on("submit",function(event){
+            $("#loaderContainer").show();
+        })
+        let dialogBoxId=document.getElementById("dialogBox")
+        function redirectToEdit (id){
+            window.location.href='edit?id='+id;
+        }
+        function showDialog(id) {
+            document.getElementById("modeid").value=id;
+            dialogBoxId.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    e.preventDefault();
+                }
+            });
+            dialogBoxId.showModal();
+        }
+
+        function closeDialog() {
+            dialogBoxId.close();
+        }
+        window.onclick = function(event) {
+            if (event.target == dialogBoxId) {
+              dialogBoxId.close();
+            }
+          }
+
+
+
+    </script>
+
+      <!-- Bootstrap core JavaScript-->
+      <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+      <!-- Core plugin JavaScript-->
+      <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+      <!-- Custom scripts for all pages-->
+      <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+      <!-- Page level plugins -->
+      <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+      <!-- Page level custom scripts -->
+      <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+      <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+
+</body>
+
+</html>

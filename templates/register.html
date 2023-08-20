@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Register</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get references to the password input fields and error message elements
+            const passwordField = document.getElementById("exampleInputPassword");
+            const confirmPasswordField = document.getElementById("exampleRepeatPassword");
+            const passwordError = document.getElementById("passwordError");
+            const confirmPasswordError = document.getElementById("confirmPasswordError");
+
+            // Add event listener to the password field for input changes
+            passwordField.addEventListener("input", function() {
+                const password = passwordField.value;
+
+                // Perform your custom password validation here
+                if (password.length < 8) {
+                    passwordError.textContent = "Password should be at least 8 characters long.";
+                } else {
+                    passwordError.textContent = "";
+                }
+            });
+
+            // Add event listener to the confirm password field for input changes
+            confirmPasswordField.addEventListener("input", function() {
+                const password = passwordField.value;
+                const confirmPassword = confirmPasswordField.value;
+
+                // Check if passwords match
+                if (password !== confirmPassword) {
+                    confirmPasswordError.textContent = "Passwords do not match.";
+                } else {
+                    confirmPasswordError.textContent = "";
+                }
+            });
+        });
+
+        </script>
+        <style>
+            .error-message {
+                color: red;
+                font-size: 14px;
+            }
+            #logo {
+                background: url("{% static '/logo/cover.png'%}");
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+              }
+        </style>
+
+
+
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block " id="logo"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            </div>
+                            <form class="user" method="post" action="{% url 'doRegister' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="username" name="username"
+                                        placeholder="Username" required>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="exampleFirstName" name="firstname"
+                                            placeholder="First Name" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" id="exampleLastName" name="lastname"
+                                            placeholder="Last Name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="email"
+                                        placeholder="Email Address" required>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="exampleInputPassword" placeholder="Password" name="password" required>
+                                            <span id="passwordError" class="error-message"></span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="exampleRepeatPassword" placeholder="Repeat Password" onchanged="" name="confirmpassword" required>
+                                            <span id="confirmPasswordError" class="error-message"></span>
+                                    </div>
+                                </div>
+                                <input type="submit" value="Register Account" id="register" class="btn btn-primary btn-user btn-block">
+
+                                {% comment %} <hr>
+                                <a href="index.html" class="btn btn-google btn-user btn-block">
+                                    <i class="fab fa-google fa-fw"></i> Register with Google
+                                </a>
+                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+                                </a> {% endcomment %}
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="{% url 'forgetPassword'%}">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="{% url 'login'%}">Already have an account? Login!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{% static 'custom.js' %}"></script>
+
+</body>
+
+</html>
